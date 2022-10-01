@@ -9,6 +9,7 @@ async function start() {
   const clientTimeReqStart = Date.now();
   const serverTime = await client.getServerTime();
   const clientTimeReqEnd = Date.now();
+  const serverTimeNow = new Date(Number(serverTime.time_now) * 1000).getTime();
 
   console.log('time: ', {
     // Time the request was made
@@ -18,11 +19,11 @@ async function start() {
     // Estimate for how long it took to make an API call to the time endpoint and to get a reply
     clientTimeReqDiff: clientTimeReqEnd - clientTimeReqStart,
     // Time returned by the server
-    serverTime,
+    serverTimeNow,
     // Estimated latency from request start time to server reply
-    serverTimeStartDiff: serverTime - clientTimeReqStart,
+    serverTimeStartDiff: serverTimeNow - clientTimeReqStart,
     // Estimated latency from server reply to reply received
-    serverTimeEndDiff: clientTimeReqEnd - serverTime,
+    serverTimeEndDiff: clientTimeReqEnd - serverTimeNow,
   });
 
   process.exit(0);
